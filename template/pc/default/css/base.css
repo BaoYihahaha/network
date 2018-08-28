@@ -1,0 +1,36 @@
+*{
+    box-sizing: border-box;
+}
+*::before{
+    box-sizing: border-box;
+}
+*::after{
+    box-sizing: border-box;
+}
+body,dl,dt,dd,ul,li,h1,h2,h3,h4,input,form,a,p,textarea,button{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+a:hover{
+    text-decoration: none;
+}
+ul>li{
+    list-style: none;
+}
+
+/* 解决margin合并问题 */
+.noCollapse::before{
+    content: '';
+    display: table;
+}
+.noCollapse::after{
+    content: '';
+    display: table;
+}
+img{
+    border:0px;
+}

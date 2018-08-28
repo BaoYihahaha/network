@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="icon" type="image/x-icon" href="../addons/sz_yi/plugin/network/template/pc/default/images/network.ico" />
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/swiper.css">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/base.css">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/main.css">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/index.css">
+</head>
+<style>
+
+
+</style>
+<body>
+    <div class="header max-width">
+        <div class="header-main main-width">
+            <div class="logo">
+            	<a href="http://bm.iiio.top/app/index.php?i=1&c=entry&m=sz_yi&do=plugin&method=index&p=network">
+            	<img src="../addons/sz_yi/plugin/network/template/pc/default/images/logo.png" alt="">
+            </a>
+            </div>
+            <div class="nav">
+                <div class="nav-box">
+                    {loop $nav $nav}
+                    <a href="{$nav['link']}"><div {if $nav['id'] == 1} class="nav-item  active"{else} class="nav-item"{/if}>{$nav['title']}</div></a>
+                    {/loop}
+                </div>
+            </div>
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="i" value="1" />
+            <input type="hidden" name="c" value="entry" />
+            <input type="hidden" name="method" value="article_list" />
+            <input type="hidden" name="p" value="network" />
+            <input type="hidden" name="do" value="plugin" />
+            <input type="hidden" name="m" value="sz_yi" />            
+            <input type="hidden" name="op" value="article_list" />
+            <div class="search">
+                <input type="text" id ="title" name="title" value="{$_GPC['title']}" data-options="required:true" placeholder="公排">
+                <span><img src="../addons/sz_yi/plugin/network/template/pc/default/images/search.png" alt=""></span>
+            </div>
+        </form>    
+        </div>
+    </div>
+    <div class="content max-width">
+        <div class="main-content main-width">
+            <div class="box1">
+                <div class="left">
+                    <div class="banner">
+                        <div class="swiper-container swiper-container-horizontal">    
+                            <div class="swiper-wrapper">
+                            {loop $sowing $sowing}
+                                <div class="swiper-slide">
+                                <a href="{$sowing['link']}">
+                                <img src="{$sowing['thumb']}" alt="">
+                                <span class="banner-title">{$sowing['title']}</span>
+                                </a>
+                                </div>
+                            {/loop}
+                            </div>
+                            <!-- Add Pagination -->
+                            <div class="swiper-pagination"></div>
+                            
+                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                        </div>
+                    </div>
+                    <div class="Recommend">
+                    <div class="article">
+                    {loop $recommend $index $recommend}   
+                        {if $index == 0}
+                        <div class="article-title">
+                        <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$recommend['id']))}">
+                        {$recommend['article_title']}
+                        </a>
+                        <img class="tuijian" src="../addons/sz_yi/plugin/network/template/pc/default/images/tuijian.png" alt="">
+                        </div>
+                        {else}
+                        
+                            <div class="text">
+                                <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('art_id'=>$recommend['art_id'],'op'=>'article_list'))}"><span class="text-title">「{$recommend['title']}」</span></a>
+                               <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$recommend['id']))}"> <span class="text-content">{$recommend['article_title']}</span></a>
+                            </div>
+                        {/if}
+                    {/loop}  
+                    </div>  
+                    </div>
+                </div>
+                 <div class="center">
+                    <div class="top">
+                        <div class="hot-title">热门推荐</div>
+                    </div>
+                    <div class="article">
+                    {loop $hot_post $hot_post}
+                        <div class="text">
+                            <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('art_id'=>$hot_post['art_id'],'op'=>'article_list'))}">
+                            <span class="text-title">「{$hot_post['title']}」</span>
+                            </a>
+                            <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$hot_post['id']))}">
+                            <span class="text-content">{$hot_post['article_title']}</span>
+                            <span class="author">{$hot_post['author']}</span>
+                            </a>
+                        </div>
+                    {/loop}
+                    </div>
+                    <div class="img-box">
+                    {loop $hot_img $hot_img}
+                        <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$hot_img['id']))}">
+                        <div class="hot-img"><img src="{$hot_img['thumb']}" alt=""><span class="img-title">{$hot_img['title']}</span>
+                        </div>
+                        </a> 
+                    {/loop}    
+                    </div>
+                </div>
+                <div class="right">
+                    <a href="{$advert1['link']}">
+                    <div class="pic1"><img src="{$advert1['thumb']}" alt=""></div>
+                    </a>
+                    <a href="{$advert2['link']}">
+                    <div class="pic2"><img src="{$advert2['thumb']}" alt=""></div>
+                    </a>
+                </div>
+            </div>
+            <div class="box2">
+                <div class="top">
+                    <div class="left">
+                        <div class="hot-system">
+                            <div class="hot-title">最热系统</div>
+                            <div class="system-box">
+                                {loop $hot_plate $hot_plate}
+                                <div class="system-img">
+                                <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('art_id'=>$hot_plate['id'],'op'=>'article_list'))}">
+                                <img src="{$hot_plate['thumb']}" alt="">
+                                <span class="img-title">{$hot_plate['title']}</span>
+                                </a>
+                                </div>
+                                {/loop}
+                            </div>
+                        </div>
+                        <div class="hot-msg">
+                            <div class="hot-title">最新咨询</div>
+                            <div class="msg-box">
+                            {loop $newest $newest}
+                                <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$newest['id']))}">
+                                <div class="content-box">
+                                    <div class="content-title">{$newest['title']}</div>
+                                    <div class="content-msg">
+                                        <span class="author">{$newest['author']}</span>
+                                        <span class="timer">{php echo date('n月j日 H:i', $newest['addtime'])}</span>
+                                    </div>
+                                </div>
+                                </a>
+                            {/loop}    
+                            </div>
+                        </div>   
+                    </div>
+                    <div class="right">
+                        <div class="rankings">
+                            <div class="nav-box">
+                                <ul>
+                                    <li class="nav cur">点击排行</li>
+                                    <li class="nav">观看排行</li>
+                                    <li class="nav">分享排行</li>
+                                </ul>
+                            </div>
+                            <div class="ran-box ran-box1">
+                                <div class="ran-top">
+                                    {loop $click_rank $index $click_rank}
+                                    {if $index == 0}
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$click_rank['id']))}">
+                                    <div class="ran-img"><img src="{$click_rank['thumb']}" alt=""><span class="ran-title">{$click_rank['title']}</span></div>
+                                    </a><div class="ran-text">
+                                    {else if $index <=4}
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$click_rank['id']))}">
+                                        <div class="ran-content">
+                                            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/left.png" alt="">
+                                            <span class="content-text">{$click_rank['title']}</span>
+                                        </div>
+                                    </a>    
+                                    {else if $index == 5}
+                                    </div>
+                                </div>
+                                <div class="ran-botttom">
+                                    <div class="ran-text">
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$click_rank['id']))}">
+                                        <div class="ran-content">
+                                            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/left.png" alt="">
+                                            <span class="content-text">{$click_rank['title']}</span>
+                                        </div>
+                                     </a>   
+                                    {else}
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$click_rank['id']))}">
+                                    <div class="ran-content">
+                                            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/left.png" alt="">
+                                            <span class="content-text">{$click_rank['title']}</span>
+                                        </div>
+                                    </a>    
+                                    {/if}
+                                    {/loop}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ran-box ran-box2">
+                                <div class="ran-top">
+                                {loop $watch_rank $index $watch_rank}
+                                {if $index == 0}
+                                <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$watch_rank['id']))}">
+                                    <div class="ran-img"><img src="{$watch_rank['thumb']}" alt=""><span class="ran-title">{$watch_rank['title']}</span></div>
+                                    </a>
+                                    <div class="ran-text">
+                                {else if $index <=4}    
+                                <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$watch_rank['id']))}">
+                                        <div class="ran-content">
+                                            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/left.png" alt="">
+                                            <span class="content-text">{$watch_rank['title']}</span>
+                                        </div>
+                                        </a>
+                                {else if $index == 5}       
+                                    </div>
+                                </div>
+                                <div class="ran-botttom">
+                                    <div class="ran-text">
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$watch_rank['id']))}">
+                                        <div class="ran-content">
+                                            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/left.png" alt="">
+                                            <span class="content-text">{$watch_rank['title']}</span>
+                                        </div>
+                                        </a>
+                                {else}      
+                                <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$watch_rank['id']))}">  
+                                        <div class="ran-content">
+                                            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/left.png" alt="">
+                                            <span class="content-text">{$watch_rank['title']}</span>
+                                        </div>
+                                        </a>
+                                {/if}
+                                {/loop}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ran-box ran-box3">
+                                <div class="ran-top">
+                                {loop $share_rank $index $share_rank}
+                                {if $index == 0}
+                                <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$share_rank['id']))}">
+                                    <div class="ran-img"><img src="{$share_rank['thumb']}" alt=""><span class="ran-title">{$share_rank['title']}</span></div>
+                                    </a>
+                                    <div class="ran-text">
+                                {else if $index <=4}
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$share_rank['id']))}">    
+                                        <div class="ran-content">
+                                            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/left.png" alt="">
+                                            <span class="content-text">{$share_rank['title']}</span>
+                                        </div>
+                                    </a>
+                                {else if $index == 5}
+                                    </div>
+                                </div>
+                                <div class="ran-botttom">
+                                    <div class="ran-text">
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$share_rank['id']))}">
+                                        <div class="ran-content">
+                                            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/left.png" alt="">
+                                            <span class="content-text">{$share_rank['title']}</span>
+                                        </div>
+                                        </a>
+                                {else}       
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$share_rank['id']))}">
+                                        <div class="ran-content">
+                                            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/left.png" alt="">
+                                            <span class="content-text">{$share_rank['title']}</span>
+                                        </div>
+                                    </a>
+                                {/if}
+                                {/loop}        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gao">
+                            <a href="{$advert3['link']}"><img src="{$advert3['thumb']}" alt=""></a>
+                        </div>
+                        <div class="drygood">
+                            <div class="nav-box">
+                                <div class="nav-title">干货</div>
+                                <div class="nav-left"></div>
+                            </div>
+                            <div class="dry-box">
+                                <div class="dry-classify">
+                                {loop $dry_cargo $index $dry_cargo}
+                                {if $index == 0}
+                                    <div class="dry-total">
+                                        <span class="aimg"> <img src="../addons/sz_yi/plugin/network/template/pc/default/images/arrow1.jpg" alt=""></span>
+                                       
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('art_id'=>$dry_cargo['art_id'],'op'=>'article_list'))}">
+                                        <span class="claasify">{$dry_cargo['title']}</span>
+                                        </a>
+
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$dry_cargo['id']))}"><span class="content-text">{$dry_cargo['article_title']}</span>
+                                        </a>
+                                    </div>
+                                {else if $index <=4}    
+                                    <div class="dry-children">
+                                        <span class="aimg"> <img src="../addons/sz_yi/plugin/network/template/pc/default/images/arrow2.jpg" alt=""></span>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('art_id'=>$dry_cargo['art_id'],'op'=>'article_list'))}">
+                                        <span class="claasify">{$dry_cargo['title']}</span>
+                                        </a>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$dry_cargo['id']))}">
+                                        <span class="content-text">{$dry_cargo['article_title']}</span></a>
+                                    </div>
+                                {else if $index == 5}
+                                    <div class="dry-total">
+                                        <span class="aimg"> <img src="../addons/sz_yi/plugin/network/template/pc/default/images/arrow1.jpg" alt=""></span>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('art_id'=>$dry_cargo['art_id'],'op'=>'article_list'))}">
+                                        <span class="claasify">{$dry_cargo['title']}</span>
+                                        </a>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$dry_cargo['id']))}">
+                                        <span class="content-text">{$dry_cargo['article_title']}</span></a>
+                                    </div>
+                                {else if $index <=9}    
+                                    <div class="dry-children">
+                                         <span class="aimg"> <img src="../addons/sz_yi/plugin/network/template/pc/default/images/arrow2.jpg" alt=""></span>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('art_id'=>$dry_cargo['art_id'],'op'=>'article_list'))}">
+                                        <span class="claasify">{$dry_cargo['title']}</span>
+                                        </a>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$dry_cargo['id']))}">
+                                        <span class="content-text">{$dry_cargo['article_title']}</span></a>
+                                    </div>
+                                {else if $index == 10}    
+                                    <div class="dry-total">
+                                        <span class="aimg"> <img src="../addons/sz_yi/plugin/network/template/pc/default/images/arrow1.jpg" alt=""></span>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('art_id'=>$dry_cargo['art_id'],'op'=>'article_list'))}">
+                                        <span class="claasify">{$dry_cargo['title']}</span>
+                                        </a>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$dry_cargo['id']))}">
+                                        <span class="content-text">{$dry_cargo['article_title']}</span>
+                                        </a>
+                                    </div>
+                                {else}
+                                    <div class="dry-children">
+                                         <span class="aimg"> <img src="../addons/sz_yi/plugin/network/template/pc/default/images/arrow2.jpg" alt=""></span>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('art_id'=>$dry_cargo['art_id'],'op'=>'article_list'))}">
+                                        <span class="claasify">{$dry_cargo['title']}</span>
+                                        </a>
+                                        <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$dry_cargo['id']))}">
+                                        <span class="content-text">{$dry_cargo['article_title']}</span>
+                                        </a>
+                                    </div>
+                                {/if}
+                                {/loop}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <a href="{$advert4['link']}">
+                    <img src="{$advert4['thumb']}" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="box3">
+                <div class="push-box">
+                    <div class="hot-title">精选推送</div>
+                    <div class="push-main">
+                    </div>
+                    <div class="more">
+                        <a href="javascript:;" id ="ac" status="1">点击查看更多 >></a>
+                    </div>
+                </div>
+                <div class="refrash-box">
+                    <div class="fresh-box">
+                        <div class="nav-box">
+                            <div class="nav-title">热门搜索</div>
+                            <div class="nav-left"></div>
+                        </div>
+                        <div class="random-box">
+                        {loop $hot_label $hot_label}
+                        <a href="{$hot_label['link']}">
+                            <span class="random-text">{$hot_label['title']}</span>
+                        </a>
+                        {/loop}
+                        </div>
+                    </div>
+                    <div class="cur-ran">
+                        <div class="ran-title">今日话题排行</div>
+                        <div class="ran-list">
+                            <ul>
+                            {loop $hot_search $index $hot_search}
+                            <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$hot_search['id']))}">
+                                <li>{php echo $index+1}&emsp;{$hot_search['title']}</li>
+                            </a>
+                            {/loop}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer max-width" style="clear: both;">
+        <div class="footer-main main-width">
+            ©2005-2018 广州海生网络科技有限公司 版权所有，并保留所有权利。
+        </div>
+    </div>
+</body>
+</html>
+<script src="../addons/sz_yi/plugin/network/template/pc/default/js/jquery-3.3.1.js"></script>
+<script src="../addons/sz_yi/plugin/network/template/pc/default/js/swiper.js"></script>
+<script>
+    
+
+    //随机颜色和字体
+    var $text=$(".random-text");
+    for (var i = 0; i < $text.length; i++) {
+        var r = Math.round((Math.random()*255)).toString(16);
+        var g = Math.round((Math.random()*255)).toString(16);
+        var b = Math.round((Math.random()*255)).toString(16);
+        var color = "#"+r+g+b;
+        /*如果你希望生成任意值到任意值（也就是指定范围内）的随机数，生成公式：Math.floor(Math.random()*(max-min+1)+min);
+        // max - 期望的最大值
+        // min - 期望的最小值*/
+        var fontsize=Math.floor(Math.random()*(18-12+1)+12);
+        $($text[i]).css({
+            'color':color,
+            'fontSize':fontsize
+        })
+    }
+
+    //干货标签
+    var mark=$('.dry-classify .claasify');
+    for (var i = 0; i < mark.length; i++) {
+        var text=mark.eq(i).text()
+        if (text=='精华') {
+            mark.eq(i).css('font-weight', 'bold');
+        }else if(text=='有用'){
+            mark.eq(i).css('background', '#fb8b13');
+        }
+    }
+
+    //切换排行榜
+    var ranbox=$(".rankings .ran-box");
+    var nav=$(".rankings li.nav");
+    for (var i=0;i<nav.length;i++){
+        $(nav[i]).attr("index",i);
+    }
+    nav.click(function () {
+        $(this).addClass("cur").siblings().removeClass("cur cur2 cur1");
+        var index= $(this).attr("index");
+        if (index == '1' && $(this).hasClass('cur')){   
+            $(this).addClass("cur1");
+        }else if(index == "2" && $(this).hasClass('cur')){
+            $(this).removeClass("cur").addClass('cur2');
+        }
+        console.log(index);
+        $(ranbox[index]).css("display","block").siblings(".ran-box").css("display","none");
+    })
+    $(function(){
+        $.post("{php echo $this->createPluginMobileUrl('network',array('method'=>'index','apido'=>'addmore'))}",function(result){
+            var result = JSON.parse(result);
+            var val = result.status;
+            var str = '';
+            for (var i = 0; i < val.length; i++) {
+                str += '<a href="{php echo $this->createPluginMobileUrl("network/article_info")}&id='+val[i].id+'">'+
+'                           <div class="push">'+
+'                            <div class="push-left">'+
+'                                <img src="'+val[i].thumb+'" alt="">'+
+'                            </div>'+
+'                            <div class="push-right">'+
+'                                <div class="push-title">'+val[i].title+'</div>'+
+'                                <div class="timer">'+val[i].addtime+'</div>'+
+'                                <p class="push-content">'+val[i].detail+'</p>'+
+'                            </div>'+
+'                        </div></a>';
+
+            }
+            $(".push-main").html(str);
+            $('#ac').click(function(){
+                var acstatus = $(this).attr("status");
+                if (acstatus != 1) {
+                    return;
+                }
+                $(this).attr("status", '0');
+                 $.post("{php echo $this->createPluginMobileUrl('network',array('method'=>'index','apido'=>'addmore'))}",{limit:'1'},function(result){
+                     var result = JSON.parse(result);
+                     var vals = result.status;
+                     var strs = '';
+                for (var i = 0; i < vals.length; i++) {
+                    strs += 
+                    '<a href="{php echo $this->createPluginMobileUrl("network/article_info")}&id='+vals[i].id+'">'+
+                    '<div class="push">'+
+'                        <div class="push-left">'+
+'                             <img src="'+vals[i].thumb+'" alt="">'+
+'                            </div>'+
+'                            <div class="push-right">'+
+'                                <div class="push-title">'+vals[i].title+'</div>'+
+'                                <div class="timer">'+vals[i].addtime+'</div>'+
+'                                <p class="push-content">'+vals[i].detail+'</p>'+
+'                            </div>'+
+'                        </div></a>';
+
+            }
+            $(".push-main").append(strs);
+             $('#ac').html("加载完成");
+                        })
+                    })
+              });
+          });
+    $('#title').bind('keypress',function(event){ 
+         
+          
+         if(event.keyCode == 13)      
+
+         {  
+            if($('#title').val() == ""){
+                return false;
+            }
+         }  
+
+     });
+
+    //轮播图
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        spaceBetween: 0,
+        centeredSlides: true,
+        loop : true,
+        autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+</script>

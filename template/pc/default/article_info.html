@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$article_info['title']}</title>
+    <link rel="icon" type="image/x-icon" href="../addons/sz_yi/plugin/network/template/pc/default/images/network.ico" />
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/base.css">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/main.css">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/index.css">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/article-detial.css">
+</head>
+<style>
+</style>
+<body>
+    <div class="header max-width">
+    <div class="header-main main-width">
+        <div class="logo">
+            <a href="http://bm.iiio.top/app/index.php?i=1&c=entry&m=sz_yi&do=plugin&method=index&p=network">
+            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/logo.png" alt="">
+            </a>
+        </div>
+            <div class="nav">
+                <div class="nav-box">
+                    {loop $nav $nav}
+                    <a href="{$nav['link']}"><div {if $nav['id'] == $article_info['id']} class="nav-item  active"{else} class="nav-item"{/if}>{$nav['title']}</div></a>
+                    {/loop}
+                </div>
+            </div>
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="i" value="1" />
+            <input type="hidden" name="c" value="entry" />
+            <input type="hidden" name="method" value="article_list" />
+            <input type="hidden" name="p" value="network" />
+            <input type="hidden" name="do" value="plugin" />
+            <input type="hidden" name="m" value="sz_yi" />            
+            <input type="hidden" name="op" value="article_list" />
+            <div class="search">
+                <input type="text" id ="title" name="title" value="{$_GPC['title']}" placeholder="公排">
+                <span><img src="../addons/sz_yi/plugin/network/template/pc/default/images/search.png" alt=""></span>
+            </div>
+        </form> 
+
+    </div>
+</div>
+    <div class="content max-width">
+        <div class="main-content main-width">
+            <div class="left">
+                <div class="article-box">
+                    <div class="article-top">
+                        <div class="article-title">{$article_info['title']}</div>
+                        <div class="article-msg">
+                            <span class="author">{$article_info['author']}</span>
+                            <span class="time">
+                            {php echo date('Y-m-d', $article_info['addtime'])}</span>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        {$article_info['detail']}
+                    </div>
+                </div>
+                <div class="page">
+                    {if $front != ''}
+                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$front['id']))}">
+                    <div class="pre-page"><img class="pre-img" src="../addons/sz_yi/plugin/network/template/pc/default/images/pre.jpg" alt="">
+                    <span class="page-title">
+                    上一篇：{$front['title']}
+                    </span></div></a>
+                    {else}
+                    <div class="pre-page">已经是第一篇</div>
+                    {/if}
+                    {if $after != ''}
+                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$after['id']))}">
+                    <div class="next-page">
+                    <span class="page-title">
+                    下一篇：{$after['title']}
+                    </span><img class="next-img" src="../addons/sz_yi/plugin/network/template/pc/default/images/next.jpg" alt=""></div></a>
+                    {else}
+                    <div class="pre-page">已经是最后一篇</div>
+                    {/if}
+                </div>
+                <div class="push-box">
+                    <div class="hot-title">精选推送</div>
+                    <div class="push-main">
+                    {loop $selected_groom $selected_groom}
+                    <div class="push">
+                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$selected_groom['id']))}">
+                           <div class="push-left">
+                                <img src="{$selected_groom['thumb']}" alt="">
+                            </div>
+                            <div class="push-right">
+                                <div class="push-title">{$selected_groom['title']}</div>
+                                <div class="timer">{php echo date('Y-m-d', $selected_groom['addtime'])}</div>
+                                <p class="push-content">{$selected_groom['detail']}</p>
+                            </div>
+                        </div>
+                        </a>
+                     {/loop}   
+                    </div>
+                   <!--  <div class="more">
+                       <a href="javascript:;" id ="list" status="1">点击查看更多 >></a>
+                   </div> -->
+                </div>
+            </div>
+            <div class="right">
+                <div class="chosen-article">
+                    <div class="chosen-top">精选文章</div>
+                    <div class="article-main">
+                        <ul>
+                            {loop $article_choice $article_choice}
+                            <li><a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$article_choice['id']))}">{$article_choice['title']}</a></li>
+                            {/loop}
+                        </ul>
+                    </div>
+                </div>
+                <div class="advert"><a href="{$advert6['link']}"><img src="{$advert6['thumb']}" alt=""></a></div>
+                <div class="hot-tui">
+                    <div class="tui-title">热文推荐</div>
+                    <div class="hot-box">
+                        
+                                        
+                    {loop $groom_choice $groom_choice}
+                        <div class="hot-main">
+                        <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$groom_choice['id']))}">
+                            <div class="hot-img">
+                                <img src="{$groom_choice['thumb']}" alt="">
+                            </div>
+                            <div class="hot-text">{$groom_choice['detail']}</div>
+                            </a>
+                        </div>
+                    {/loop}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer max-width">
+        <div class="footer-main main-width" >
+            ©2005-2018 广州海生网络科技有限公司 版权所有，并保留所有权利。
+        </div>
+    </div>
+</body>
+</html>
+<script src="../addons/sz_yi/plugin/network/template/pc/default/js/jquery-3.3.1.js"></script>
+<script>
+    window.onload=function(){
+        var img=$('.article-box .article-content p img');
+        //var width=img.width();
+        // console.log(img.length);
+        for (var i = 0; i < img.length; i++) {
+            var width=img.eq(i).width();
+            console.log(width);
+            if (width>690) {
+                img.eq(i).width(690);
+            }
+        }
+        var ltext=$('.article-box .article-content p:last');
+        //var ptext=$('.article-box .article-content p br');
+        var acontent=$('.article-box .article-content');
+        if (ltext.text()=='') {
+            ltext.remove();
+        }
+        /*if (ptext.length>0) {
+            ptext.parent().css('line-height', '15px');
+        }*/
+    }
+
+    $('#title').bind('keypress',function(event){ 
+         
+          
+         if(event.keyCode == 13)      
+
+         {  
+            if($('#title').val() == ""){
+                return false;
+            }
+         }  
+
+     });        
+  
+    
+    
+//     $(function(){
+//         $.post("{php echo $this->createPluginMobileUrl('network',array('method'=>'index','apido'=>'addmore'))}",function(result){
+//             var result = JSON.parse(result);
+//             var val = result.status;
+//             var str = '';
+//             for (var i = 0; i < val.length; i++) {
+//                 str +='<a href="{php echo $this->createPluginMobileUrl("network/article_info")}&id='+val[i].id+'">'+
+//                 '<div class="push">'+
+// '                            <div class="push-left">'+
+// '                                <img src="'+val[i].thumb+'" alt="">'+
+// '                            </div>'+
+// '                            <div class="push-right">'+
+// '                                <div class="push-title">'+val[i].title+'</div>'+
+// '                                <div class="timer">'+val[i].addtime+'</div>'+
+// '                                <p class="push-content">'+val[i].detail+'</p>'+
+// '                            </div>'+
+// '                        </div></a>';
+
+//             }
+//             $(".push-main").html(str);
+//             $('#list').click(function(){
+//                 var acstatus = $(this).attr("status");
+//                 if (acstatus != 1) {
+//                     return;
+//                 }
+//                 $(this).attr("status", '0');
+//                  $.post("{php echo $this->createPluginMobileUrl('network',array('method'=>'index','apido'=>'addmore'))}",{limit:'1'},function(result){
+//                      var result = JSON.parse(result);
+//                      var vals = result.status;
+//                      var strs = '';
+//                 for (var i = 0; i < vals.length; i++) {
+//                     strs += '<div class="push">'+
+// '                        <div class="push-left">'+
+// '                             <img src="'+vals[i].thumb+'" alt="">'+
+// '                            </div>'+
+// '                            <div class="push-right">'+
+// '                                <div class="push-title">'+vals[i].title+'</div>'+
+// '                                <div class="timer">'+vals[i].addtime+'</div>'+
+// '                                <p class="push-content">'+vals[i].detail+'</p>'+
+// '                            </div>'+
+// '                        </div>';
+
+//             }
+//             $(".push-main").append(strs);
+//              $('#list').html("加载完成");
+//                         })
+//                     })
+//               });
+//           });
+</script>

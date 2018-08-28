@@ -1,0 +1,270 @@
+{template 'common/header'}
+{template 'web/shop/tabs'}
+{if $operation == 'display'}
+<style>
+    .panel .table td, .panel .table th{ text-align: center; }
+</style>
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="method" value="article_type" />
+            <input type="hidden" name="p" value="network" />
+            <input type="hidden" name="do" value="plugin" />
+            <input type="hidden" name="m" value="sz_yi" />            
+            <input type="hidden" name="op" value="display" />
+            <div class="form-group">
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class='input-group'>
+                        <div class="input-group-addon">标题</div>
+                        <input type="text" class="form-control"  name="title" value="{$_GPC['title']}" placeholder="可搜索标题"/>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-6 col-xs-12">
+                    <div class='input-group'>
+                        <div class="input-group-addon">所属导航栏</div>
+                        <select name='nav_id' class='form-control'>
+                            <option value="0" >全部</option>
+                            {loop $navigation $row}
+                            <option value="{$row['id']}" {if $_GPC['nav_id'] == $row['id']} selected="selected" {/if}>{$row['title']}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" style="height: 34px;">
+                    <div class='input-group'>
+                        <div class='input-group-addon' style="padding: 8px 12px 9px 12px; border-left: 1px #ccc solid; border-right: 1px #ccc solid; border-radius: 2px;">热门系统
+                            <label class='radio-inline' style='margin-top:-7px;'><input type='radio' value='1' name='is_hot' {if $_GPC['is_hot']=='1'}checked{/if}>热门</label>
+                            <label class='radio-inline' style='margin-top:-7px;'><input type='radio' value='2' name='is_hot' {if $_GPC['is_hot']=='2'}checked{/if}>普通</label>
+                            <label class='radio-inline' style='margin-top:-7px;'><input type='radio' value='3' name='is_hot' {if $_GPC['is_hot']=='3'}checked{/if}>全部</label>
+                        </div>
+                    </div>
+                </div>    
+            <div class="form-group">
+                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                    <div class='input-group'>
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                        <input type="hidden" name="token" value="{$_W['token']}" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<form action="" method="post">
+<div class="panel panel-default">
+<div class='panel-heading' >操作日志 (数量: {$total}  条)</div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style="width:74px;">ID</th> 
+                    <th style='width:84px'>显示顺序</th>					
+                    <th>标题</th>
+                    <th>所属导航栏</th>
+                    <th>图片</th>
+                    <th>热门系统</th>
+                    <th>是否显示</th>
+                    <!-- <th>是否推荐(首页最新咨询右下分类)</th> -->
+                    <th >操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>{$row['id']}</td>
+                    <td> 
+                           <input type="text" class="form-control" name="sort[{$row['id']}]" value="{$row['sort']}"></td>
+                    <td>{$row['title']}</td>
+                    <td>{$row['nav_title']}</td>
+                    <td><img  src="{$row['thumb']}" style="width:30px;height:30px;padding1px;border:1px solid #ccc"/></td>
+                    <td>
+                        {if $row['is_hot']==1}
+                            <span class='label label-success'>热门</span>
+                        {else}
+                            <span class='label label-danger'>普通</span>
+                        {/if}
+                    </td>
+                    <td>
+                        {if $row['is_show']==1}
+                            <span class='label label-success'>显示</span>
+                        {else}
+                            <span class='label label-danger'>隐藏</span>
+                        {/if}
+                    </td>
+                    <!-- <td>
+                        {if $row['is_recommend']==1}
+                            <span class='label label-success'>推荐</span>
+                        {else}
+                            <span class='label label-danger'>屏蔽</span>
+                        {/if}
+                     </td>   -->              
+                    <td style="text-align:left;">
+                        <a href="{php echo $this->createPluginWebUrl('network', array('method'=>'article_type','op' => 'post', 'id' => $row['id']))}" class="btn btn-default btn-sm"  title="修改" style="background-color: #ff5858; color: #fff;"><i class="fa fa-edit"></i></a>
+                        <a href="{php echo $this->createPluginWebUrl('network', array('method'=>'article_type','op' => 'delete', 'id' => $row['id']))}" class="btn btn-default btn-sm" onclick="return confirm('确认删除文章类型?')" title="删除" style="background-color: #000; color: #fff;"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                <tr>
+                    <td colspan='8'>
+                        
+                      <a class='btn btn-primary' href="{php echo $this->createPluginWebUrl('network',array('method'=>'article_type','op'=>'post'))}"><i class='fa fa-plus'></i> 添加类型</a>
+                 
+                      
+                          
+                      <input name="submit" type="submit" class="btn btn-default" value="提交排序">
+                       <!-- <input type="hidden" name="token" value="{$_W['token']}" /> -->
+                      <span style="color:red;">&emsp;显示顺序为数字从小到大!</span>
+                         
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</form>
+</div>
+<script>
+    require(['bootstrap'], function ($) {
+        $('.btn').hover(function () {
+            $(this).tooltip('show');
+        }, function () {
+            $(this).tooltip('hide');
+        });
+    });
+        // onkeyup="save_sort({$row['id']})"
+    // function save_sort(id)
+    // {
+    //     var e = window.event;
+    //         if ((e.keyCode || e.which) == 13) {
+    //             var save_sorts = $("#save_sorts").val();
+    //             alert(id);return false;
+    //             $.post("{php echo $this->createPluginWebUrl('network',array('method'=>'network','op'=>'rose_save'))}", {id:id,save_sorts:save_sorts}, function(result){
+    //             });
+    //         }
+    // }
+</script>
+
+{elseif $operation == 'post'}
+
+<div class="main rightlist">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit='return formcheck()'>
+        <input type="hidden" name="id" value="{$notice['id']}" />
+        <div class="panel panel-default">
+            <div class="panel-heading">官网分类添加</div>
+            <div class="panel-body">
+	            <div class="form-group">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label class="col-xs-12 col-sm-3 col-md-3 control-label"></span>排序：</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" name="sort" class="form-control" value="{$notice['sort']}" />
+                            <span class="help-block" style="color:red;">显示顺序为数字从小到大!</span>
+                            <!-- <span class="help-block">如果输入链接，则不显示内容，直接跳转</span> -->
+                        </div>
+                    </div>
+	            	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+	                    <label class="col-xs-12 col-sm-3 col-md-3 control-label"><span style="color:red">*</span>标题：</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <input type="text" name="title" id="title" class="form-control" value="{$notice['title']}" />
+	                        <!-- <span class="help-block">如果输入链接，则不显示内容，直接跳转</span> -->
+	                    </div>
+	                </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label class="col-xs-12 col-sm-3 col-md-3 control-label">公告图片</label>
+                        <div class="col-sm-9 col-xs-12">
+                            {php echo tpl_form_field_image('thumb', $notice['thumb'])}
+                            <!-- <span class="help-block">正方型图片</span>
+                                {if !empty($notice['thumb'])}
+                                <a href='{php echo tomedia($notice['thumb'])}' target='_blank'>
+                                <img src="{php echo tomedia($notice['thumb'])}" style='width:100px;border:1px solid #ccc;padding:1px' />
+                                    {/if}
+                                </a> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <div class="col-xs-12 col-lg-7">
+                        <span style="color:red">*</span><label class="col-xs-6 col-md-3 control-label">导航栏选择</label>
+                        <div class="col-xs-6 col-md-9"> 
+                            <select class='form-control' name='nav_id' id="nav_id"> 
+                                <option value="0">选择所属导航栏</option>   
+                                {loop $styles $index $style}  
+                                {if $index == 0}
+                                {else}
+                                <option value="{$style['id']}" {if $notice['nav_id']==$style['id']}selected{/if}>{$style['title']}</option>  
+                                {/if}
+                                {/loop} 
+                            </select>   
+                        </div>  
+                    </div>
+                </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label class="col-xs-12 col-sm-3 col-md-3 control-label">热门系统</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <label class='radio-inline'>
+                                <input type='radio' name='is_hot' value=1' {if $notice['is_hot']==1}checked{/if} /> 是
+                            </label>
+                            <label class='radio-inline'>
+                                <input type='radio' name='is_hot' value=0' {if $notice['is_hot']==0}checked{/if} /> 否
+                            </label>
+                        </div>
+                    </div>
+                	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+	                    <label class="col-xs-12 col-sm-3 col-md-3 control-label">是否显示</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <label class='radio-inline'>
+	                            <input type='radio' name='is_show' value=1' {if $notice['is_show']==1}checked{/if} /> 是
+	                        </label>
+	                        <label class='radio-inline'>
+	                            <input type='radio' name='is_show' value=0' {if $notice['is_show']==0}checked{/if} /> 否
+	                        </label>
+	                    </div>
+	                </div>
+                   <!--  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label class="col-xs-12 col-sm-3 col-md-3 control-label">是否推荐</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <label class='radio-inline'>
+                                <input type='radio' name='is_recommend' value=1' {if $notice['is_recommend']==1}checked{/if} /> 是
+                            </label>
+                            <label class='radio-inline'>
+                                <input type='radio' name='is_recommend' value=0' {if $notice['is_recommend']==0}checked{/if} /> 否
+                            </label>
+                            <span class="help-block">是否推荐是选择首页最新咨询右下分类的</span>
+                        </div>
+                    </div> -->
+                </div>
+
+                
+                 <div class="form-group"></div>
+            	<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"  />
+                            <input type="hidden" name="token" value="{$_W['token']}" />
+                       <input type="button" name="back" onclick='history.back()' style='margin-left:10px;' value="返回列表" class="btn btn-default" />
+                    </div>
+            	</div>
+                
+                
+            </div>
+        </div>
+      
+    </form>
+</div>
+</div>
+<script language='javascript'>
+    function formcheck() {
+        if ($("#title").isEmpty()) {
+            Tip.focus("title", "请填写文章标题!");
+            return false;
+        } 
+        if ($("#nav_id").val() == 0) {
+            Tip.focus("nav_id", "选择导航栏!");
+            return false;
+        }
+    }
+</script>
+{/if}
+{template 'web/_footer'}

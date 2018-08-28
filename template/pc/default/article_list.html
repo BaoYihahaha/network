@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{if $article_title['title'] == ''}文章列表页{else}{$article_title['title']}{/if}</title>
+    <link rel="icon" type="image/x-icon" href="../addons/sz_yi/plugin/network/template/pc/default/images/network.ico" />
+    <link href="../addons/sz_yi/static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/pagination.css">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/base.css">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/main.css">
+    <link rel="stylesheet" href="../addons/sz_yi/plugin/network/template/pc/default/css/article-list.css">
+</head>
+<style>
+   
+</style>
+<body>
+    <div class="header max-width">
+    <div class="header-main main-width">
+        <div class="logo">
+            <a href="http://bm.iiio.top/app/index.php?i=1&c=entry&m=sz_yi&do=plugin&method=index&p=network">
+            <img src="../addons/sz_yi/plugin/network/template/pc/default/images/logo.png" alt="">
+            </a>
+        </div>
+         <div class="nav">
+                <div class="nav-box">
+                    {loop $nav $nav}
+                    <a href="{$nav['link']}"><div {if $nav['id'] == $nav_id} class="nav-item  active"{else} class="nav-item"{/if}>{$nav['title']}</div></a>
+                    {/loop}
+                </div>
+            </div>
+       <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="i" value="1" />
+            <input type="hidden" name="c" value="entry" />
+            <input type="hidden" name="method" value="article_list" />
+            <input type="hidden" name="p" value="network" />
+            <input type="hidden" name="do" value="plugin" />
+            <input type="hidden" name="m" value="sz_yi" />            
+            <input type="hidden" name="op" value="article_list" />
+            <div class="search">
+                <input type="text" id="title" name="title" value="{$_GPC['title']}" placeholder="公排">
+                <span><img src="../addons/sz_yi/plugin/network/template/pc/default/images/search.png" alt=""></span>
+            </div>
+        </form>    
+
+    </div>
+</div>
+    <div class="content max-width">
+        <div class="main-content main-width">
+            <div class="box1">
+                <div class="left">
+                    <div class="menu-top">
+                        <div class="all-menu">
+                            {if $count != 1}
+                            <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('nav_id'=>$nav_id,'op'=>'article_list'))}">
+                            <div {if $art_id == ''} class="menu cur" {else} class="menu" {/if}>全部</div>
+                            </a>
+                            {/if}
+                            {loop $article_type $article_type}
+                            <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('nav_id'=>$article_type['nav_id'],'art_id'=>$article_type['id'],'op'=>'article_list'))}">
+                            <div {if $article_type['id'] == $art_id || $_GPC['nav_id'] == 3} class="menu cur" {else} class="menu" {/if}>{$article_type['title']}</div>
+                            </a>
+                            {/loop}
+                            {if $count > 6}
+                            <div class="menu zhuti">主题分类<span><img class="zhu-img" src="../addons/sz_yi/plugin/network/template/pc/default/images/down.png" alt=""></span>
+                                <div class="child-menu">
+                                {loop $article_type_two $article_type_two}
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_list',array('nav_id'=>$article_type_two['nav_id'],'art_id'=>$article_type_two['id'],'op'=>'article_list'))}">
+                                    <div class="menu">{$article_type_two['title']}</div>
+                                    </a>
+                                {/loop}    
+                                </div>
+                            </div>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="menu-box">
+                        <!--全部-->
+                        <div class="menu-content">
+                            <div class="content1 content11">
+                                <div class="content-top">全站置顶</div>
+                                <div class="all-content">
+                                {loop $set_top $set_top}
+                                    <div class="content-main">
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$set_top['id']))}">
+                                        <div class="content-left">{$set_top['title']}</div>
+                                        <div class="content-right">
+                                            <div class="author">{$set_top['author']}</div>
+                                            <div class="timer">{$set_top['addtime']}</div>
+                                        </div>
+                                    </a>    
+                                    </div>
+                                 {/loop}  
+                                </div>
+                            </div>
+                            <div class="content1 content2">
+                                <div class="content-top">分类文章</div>
+                                <div class="all-content">
+                                {loop $list $list}
+                                    <div class="content-main">
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$list['id']))}">
+                                        <div class="content-left">{$list['title']}</div>
+                                        <div class="content-right">
+                                            <div class="author">{$list['author']}</div>
+                                            <div class="timer">{$list['addtime']}</div>
+                                        </div>
+                                        </a>
+                                    </div>
+                                {/loop}    
+                                </div>
+                            </div>
+                            <!-- <div class="pagination_8">
+
+                            </div> -->
+                            {$pager}
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="like">
+                        <div class="like-top">
+                            <div class="like-title">猜你喜欢</div>
+                            <div class="like-left"></div>
+                        </div>
+                        <div class="like-content">
+                        {loop $lovely $index $lovely}
+                        {if $index == 0}
+                            <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$lovely['id']))}">    
+                            <div class="content-title">{$lovely['title']}</div>
+                            <div class="content-main">
+                                <div class="left"><img src="{$lovely['thumb']}" alt=""></div>
+                                <div class="right2">
+                                    <p>{$lovely['detail']}</p>
+                                </div>
+                            </div>
+                            </a>
+                            <div class="content-list">
+                                <ul>
+                        {else}
+                                    <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$lovely['id']))}">
+                                    <li><span class="sq"></span>{$lovely['title']}</li>
+                                    </a>
+                        {/if}
+                        {/loop}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="refrash1">
+                        <div class="like-top">
+                            <div class="like-title">最近更新</div>
+                            <div class="like-left"></div>
+                        </div>
+                        <div class="refrash1-box">
+                            {loop $updates $updates}
+                            <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$updates['id']))}">
+                            <div class="list-box">
+                                <div class="list-left">
+                                    <img src="{$updates['thumb']}" alt="">
+                                </div>
+                                <div class="list-right">
+                                    <div class="list-title">{$updates['title']}</div>
+                                    <p>{$updates['detail']}</p>
+                                </div>
+                            </div>
+                            </a>
+                           {/loop} 
+                        </div>
+                    </div>
+                    <div class="gao1">
+                        <a href="{$advert5['link']}"><img src="{$advert5['thumb']}" alt=""></a>
+                    </div>
+                    <div class="refrash2">
+                        <div class="like-top">
+                            <div class="like-title">热门搜索</div>
+                            <div class="like-left"></div>
+                        </div>
+                        <div class="random-box">
+                        {loop $hot_label $hot_label}
+                            <a href="{$hot_label['link']}">
+                            <span class="random-text">{$hot_label['title']}</span></a>
+                        {/loop}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="box2">
+                <div class="like-top tui">
+                    <div class="like-title">精选推送</div>
+                    <div class="like-left"></div>
+                </div>
+                <div class="tui-list">
+                {loop $selected_push $selected_push}
+                <a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$selected_push['id']))}">    
+                    <div class="tui-box">
+                        <img src="{$selected_push['thumb']}" alt="">
+                        <div class="tui-title"><p>{$selected_push['title']}</p></div>
+                    </div>
+                </a>    
+                {/loop}
+                </div>
+            </div>
+            <div class="box3">
+                <div class="like-top tui">
+                    <div class="like-title">即时推荐</div>
+                    <div class="like-left"></div>
+                </div>
+                <div class="tui-list2">
+                    <div class="tui-box2">
+                        <ul>
+						{loop $timely $index $timely}
+						{if $index <= 3}
+                            <li><a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$timely['id']))}"><span class="sq"></span><span class="tui-text">{$timely['title']}</span><span class="time">[{$timely['addtime']}]</span></a></li>
+						{else if $index == 4}
+                        </ul>
+                    </div>
+                    <div class="sline"></div>
+                    <div class="tui-box2">
+                        <ul>
+                            <li><a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$timely['id']))}"><span class="sq"></span><span class="tui-text">{$timely['title']}</span><span class="time">[{$timely['addtime']}]</span></a></li>
+                        {else if $index <=7} 
+                            <li><a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$timely['id']))}"><span class="sq"></span><span class="tui-text">{$timely['title']}</span><span class="time">[{$timely['addtime']}]</span></a></li>
+						{else if $index == 8}
+                        </ul>
+                    </div>
+                    <div class="sline"></div>
+                    <div class="tui-box2">
+                        <ul>
+                            <li><a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$timely['id']))}"><span class="sq"></span><span class="tui-text">{$timely['title']}</span><span class="time">[{$timely['addtime']}]</span></a></li>
+                        {else if $index <=11}
+                            <li><a href="{php echo $this->createPluginMobileUrl('network/article_info',array('id'=>$timely['id']))}"><span class="sq"></span><span class="tui-text">{$timely['title']}</span><span class="time">[{$timely['addtime']}]</span></a></li>
+                        {/if}
+                        {/loop}    
+                        </ul>
+                    </div>
+                    <div class="sline"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer max-width">
+        <div class="footer-main main-width">
+            ©2005-2018 广州海生网络科技有限公司 版权所有，并保留所有权利。
+        </div>
+    </div>
+</body>
+</html>
+<script src="../addons/sz_yi/plugin/network/template/pc/default/js/jquery-3.3.1.js"></script>
+<script src="../addons/sz_yi/plugin/network/template/pc/default/js/pagination.min.js"></script>
+<script>
+
+
+    /*$(".pagination_8").whjPaging({
+        totalSize: {$list_count},
+        showPageNum: 3,
+        totalPage: {$fenye},
+        isShowTotalSize: false,
+        isShowTotalPage: false,
+        isShowRefresh: false,
+        isShowSkip: false,
+        isShowPageSizeOpt: false,
+        callBack: function (currPage, pageSize) {
+            console.log('currPage:' + currPage + 'pageSize:' + pageSize);
+        }
+    });
+
+    */
+
+
+    //随机颜色和字体
+    var $text=$(".random-text");
+    for (var i = 0; i < $text.length; i++) {
+        var r = Math.round((Math.random()*255)).toString(16);
+        var g = Math.round((Math.random()*255)).toString(16);
+        var b = Math.round((Math.random()*255)).toString(16);          
+        var color = "#"+r+g+b;
+        /*如果你希望生成任意值到任意值（也就是指定范围内）的随机数，生成公式：Math.floor(Math.random()*(max-min+1)+min);
+        // max - 期望的最大值
+        // min - 期望的最小值*/
+        var fontsize=Math.floor(Math.random()*(18-12+1)+12);
+        $($text[i]).css({
+            'color':color,
+            'fontSize':fontsize
+        })
+    }
+
+    var zhuti = $('.menu-top .all-menu .zhuti');
+    // console.log(zhuti)
+    zhuti.mouseover(function () {
+        $(this).find('.zhu-img').attr('src','../addons/sz_yi/plugin/network/template/pc/default/images/down2.png');
+    })
+    zhuti.mouseout(function () {
+        $(this).find('.zhu-img').attr('src','../addons/sz_yi/plugin/network/template/pc/default/images/down.png');
+    })
+    $('#title').bind('keypress',function(event){    
+        if(event.keyCode == 13)      
+
+        {  
+            if($('#title').val() == ""){
+                return false;
+            }
+        }  
+
+     });
+</script>

@@ -1,0 +1,127 @@
+{template 'common/header'}
+{template 'web/shop/tabs'}
+{if $operation == 'display'}
+<style>
+    .panel .table td, .panel .table th{ text-align: center; }
+</style>
+<form action="" method="post">
+<div class="panel panel-default">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style="width:74px;">ID</th> 				
+                    <th>标题</th>
+                    <th>是否首页右侧排行</th>
+                    <th>备注</th>
+                    <th >操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>{$row['id']}</td>
+                    <td>{$row['title']}</td>
+                    <td>
+                        {if $row['is_rankings']==1}
+                            <span class='label label-success'>是</span>
+                        {else}
+                            <span class='label label-danger'>否</span>
+                        {/if}
+                     </td>
+                     <td>{$row['remarks']}</td>                
+                    <td style="text-align:left;">
+                        <a href="{php echo $this->createPluginWebUrl('network', array('method'=>'page_plate','op' => 'post', 'id' => $row['id']))}" class="btn btn-default btn-sm"  title="修改" style="background-color: #ff5858; color: #fff;"><i class="fa fa-edit"></i></a>
+                        <a href="{php echo $this->createPluginWebUrl('network', array('method'=>'page_plate','op' => 'delete', 'id' => $row['id']))}" class="btn btn-default btn-sm" onclick="return confirm('确认删除文章类型?')" title="删除" style="background-color: #000; color: #fff;"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                <tr>
+                    <td colspan='5'>
+                        
+                      <a class='btn btn-primary' href="{php echo $this->createPluginWebUrl('network',array('method'=>'page_plate','op'=>'post'))}"><i class='fa fa-plus'></i> 添加模块</a>
+                 
+                      
+                      <span style="color:red;">&emsp;官网模块列表各个功能均和前端数据写死，除需修改标题和前端对应以外禁止修改和删除列表数据！</span>    
+                      <!-- <input name="submit" type="submit" class="btn btn-default" value="提交排序"> -->
+                       <!-- <input type="hidden" name="token" value="{$_W['token']}" /> -->
+                    
+                         
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</form>
+</div>
+<script>
+    require(['bootstrap'], function ($) {
+        $('.btn').hover(function () {
+            $(this).tooltip('show');
+        }, function () {
+            $(this).tooltip('hide');
+        });
+    });
+</script>
+
+{elseif $operation == 'post'}
+
+<div class="main rightlist">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit='return formcheck()'>
+        <input type="hidden" name="id" value="{$notice['id']}" />
+        <div class="panel panel-default">
+            <div class="panel-heading">官网模块添加</div>
+            <div class="panel-body">
+	            <div class="form-group">
+	            	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+	                    <label class="col-xs-12 col-sm-3 col-md-3 control-label"><span style="color:red">*</span>标题：</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <input type="text" name="title" id="title" class="form-control" value="{$notice['title']}" />
+	                        <!-- <span class="help-block">如果输入链接，则不显示内容，直接跳转</span> -->
+	                    </div>
+	                </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label class="col-xs-12 col-sm-3 col-md-3 control-label">是否首页右侧排行</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <label class='radio-inline'>
+                                <input type='radio' name='is_rankings' value=1' {if $notice['is_rankings']==1}checked{/if} /> 是
+                            </label>
+                            <label class='radio-inline'>
+                                <input type='radio' name='is_rankings' value=0' {if $notice['is_rankings']==0}checked{/if} /> 否
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label class="col-xs-12 col-sm-3 col-md-3 control-label">备注：</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" name="remarks" class="form-control" value="{$notice['remarks']}" />
+                            <!-- <span class="help-block">如果输入链接，则不显示内容，直接跳转</span> -->
+                    </div>
+                 </div>
+            	<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"  />
+                            <input type="hidden" name="token" value="{$_W['token']}" />
+                       <input type="button" name="back" onclick='history.back()' style='margin-left:10px;' value="返回列表" class="btn btn-default" />
+                    </div>
+            	</div>
+                
+                
+            </div>
+        </div>
+      </div>
+    </form>
+</div>
+<script language='javascript'>
+    function formcheck() {
+        if ($("#title").isEmpty()) {
+            Tip.focus("title", "请填写模块标题!");
+            return false;
+        } 
+    }
+</script>
+{/if}
+{template 'web/_footer'}
